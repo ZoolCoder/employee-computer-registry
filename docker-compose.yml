@@ -1,0 +1,39 @@
+services:
+  # Spring Boot application
+  employee-computer-registry:
+    image: employee-computer-registry
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/employeeDB
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      ADMIN_NOTIFICATION_URL: http://admin-notification:8080/api/notify
+    networks:
+      - app-network
+  # PostgreSQL database
+  database:
+    image: postgres
+    container_name: employeeDB-container
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: employeeDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    networks:
+      - app-network
+
+  # Admin Notification Service
+  admin-notification:
+    image: greenbone/exercise-admin-notification
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,35 @@
+type Computer {
+    id: ID!
+    macAddress: String!
+    computerName: String!
+    ipAddress: String!
+    description: String
+    assignedToEmployee: Employee
+}
+
+type Query {
+    computers: [Computer]
+    computer(id: ID!): Computer
+}
+
+type Mutation {
+    createComputer(input: CreateComputerInput!): Computer
+    updateComputer(id: ID!, input: UpdateComputerInput!): Computer
+    deleteComputer(id: ID!): Boolean
+}
+
+input CreateComputerInput {
+    macAddress: String!
+    computerName: String!
+    ipAddress: String!
+    description: String
+    assignedToEmployeeId: ID
+}
+
+input UpdateComputerInput {
+    macAddress: String
+    computerName: String
+    ipAddress: String
+    description: String
+    assignedToEmployeeId: ID
+}
